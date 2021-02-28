@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="検索結果の説明">
+	<meta name="keywords" content="検索,キーワード">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>CSVメーカー</title>
+	<link rel="stylesheet" href="reset.css">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<header>
+		<div id="title">
+			<h1>CSVメーカー</h1>
+			<h3>行数・列数を指定して値を入力し、出力してください。</h3>
+		</div>
+		<div id="ctrl">
+			<p>行：</p>
+			<select name="row" id="row">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+				<option value="10">10</option>
+				<option value="11">11</option>
+				<option value="12">12</option>
+				<option value="13">13</option>
+				<option value="14">14</option>
+				<option value="15">15</option>
+			</select>
+			<p>×</p>
+			<p>列：</p>
+			<select name="col" id="col">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+			</select>
+			<button id="makebtn">作成</button>
+		</div>
+	</header>
+	<main>
+		<div id="table"></div>
+	</main>
+	<footer>
+
+	</footer>
+	<script>
+		document.getElementById('makebtn').addEventListener('click', () => {
+			const row = document.getElementById('row').value;
+			const col = document.getElementById('col').value;
+			let html = '<table>';
+
+			for (let i = 1; i <= row; i++) {
+				html += `<tr id=row_${i}>`;
+				for (let j = 1; j <= col; j++) {
+					html += `<td id=col_${i}_${j}>`;
+					html += `<input type="text" id="text_${i}_${j}">`;
+					html += `</td>`;
+				}
+				html += `</tr>`;
+			}
+			html += '</table><button id="outbtn">出力</button>';
+			document.getElementById('table').innerHTML = html;
+			//出力ボタン押下
+			document.getElementById('outbtn').addEventListener('click', () => {
+				const filename = 'output.csv';
+				let line = '';
+				for (let x = 1; x <= row; x++) {
+					for (let y = 1; y <= col; y++) {
+						line = line + document.getElementById(`text_${x}_${y}`).value + ',';
+					}
+					line = line.slice(0, -1) + '\n';
+				}
+				console.log(line);
+				//BOMを付与する（Excelでの文字化け対策）
+				const bom = new Uint8Array([0xef, 0xbb, 0xbf]);
+				//Blobでデータを作成する
+				const blob = new Blob([bom, line], {
+					type: 'text/csv'
+				});
+				//BlobからオブジェクトURLを作成する
+				const url = (window.URL || window.webkitURL).createObjectURL(blob);
+				//ダウンロード用にリンクを作成する
+				const download = document.createElement('a');
+				//リンク先に上記で生成したURLを指定する
+				download.href = url;
+				//download属性にファイル名を指定する
+				download.download = filename;
+				//作成したリンクをクリックしてダウンロードを実行する
+				download.click();
+				//createObjectURLで作成したオブジェクトURLを開放する
+				(window.URL || window.webkitURL).revokeObjectURL(url);
+				window.alert('出力しました。');
+			})
+		});
+	</script>
+</body></html>

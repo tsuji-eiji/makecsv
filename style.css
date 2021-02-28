@@ -1,0 +1,48 @@
+#title {
+	text-align: center;
+	
+}
+
+#title h1 {
+	font-size: 1.8rem;
+}
+
+#title h3 {
+	font-size: 1.2rem;
+	margin: 1rem;
+}
+
+header {
+	padding: 1rem;
+}
+
+#ctrl {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+}
+
+#ctrl button,
+#ctrl select {
+	height: 25px;
+	margin-right: .5rem;
+}
+
+#ctrl p {
+	font-size: 20px;
+}
+
+table {
+	margin: .5rem 3rem;
+}
+
+input {
+	width: 90%;
+	margin-bottom: .3rem;
+}
+
+#outbtn {
+	width: 3rem;
+	margin-left: 93%;
+}
