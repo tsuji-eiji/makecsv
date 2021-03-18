@@ -83,7 +83,6 @@
 					}
 					line = line.slice(0, -1) + '\n';
 				}
-				console.log(line);
 				//BOMを付与する（Excelでの文字化け対策）
 				const bom = new Uint8Array([0xef, 0xbb, 0xbf]);
 				//Blobでデータを作成する
